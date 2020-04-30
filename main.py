@@ -11,7 +11,7 @@ import torch.optim as optim
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import utils
-from convolutional_neural_networks import BaseCNN
+from convolutional_neural_networks import CNN1, CNN2, BaseCNN
 from multilayer_perceptron import MLP
 
 
@@ -47,13 +47,13 @@ def main():
     test_data_loader = torch.utils.data.DataLoader(test_set, batch_size=1000)
 
     # instantiate base architecture convolutional neural network
-    base_cnn = BaseCNN()
+    cnn2 = CNN2()
 
     # train the base architecture convolutional neural network
-    base_cnn.train(train_data_loader, learning_rate=0.01, n_epochs=10)
+    cnn2.train(train_data_loader, learning_rate=0.005, n_epochs=5)
 
     # test the base architecture convolutional neural network
-    base_cnn.test(test_data_loader)
+    cnn2.test(test_data_loader)
 
 
 if __name__ == '__main__':

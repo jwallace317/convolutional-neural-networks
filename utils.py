@@ -29,18 +29,20 @@ def get_accuracy(model, data_loader):
     with torch.no_grad():
         for batch in data_loader:
             images = batch[0]
-            labels = batch[1]
+            targets = batch[1]
 
+            # calculate predicted targets
             predictions = model(images)
 
             batch_count = len(batch[0])
 
-            batch_correct = predictions.argmax(dim=1).eq(labels).sum().item()
+            batch_correct = predictions.argmax(dim=1).eq(targets).sum().item()
 
             count += batch_count
 
             correct += batch_correct
 
+    # calculate classification accuracy
     accuracy = correct / count
 
     return accuracy
