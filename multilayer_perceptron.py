@@ -11,6 +11,14 @@ import utils
 
 
 class MLP(nn.Module):
+    """
+    Multilayer Perceptron
+
+    This class contains the code to construct a multilayer perceptron that
+    performs image classification on the Fashion MNIST data set. This multilayer
+    perceptron features two fully-connected layers with ReLU activation
+    functions.
+    """
 
     def __init__(self):
 
@@ -29,13 +37,13 @@ class MLP(nn.Module):
         to determine the predicted target class.
 
         Args:
-            feature (torch.Tensor): the given feature
+            feature (torch.Tensor): the feature
 
         Returns:
             prediction (torch.Tensor): the predicted target class
         """
 
-        # reshape the given feature
+        # reshape the feature
         feature = feature.reshape(-1, 28 * 28)
 
         # feed forward the feature
@@ -49,7 +57,7 @@ class MLP(nn.Module):
         """
         Train
 
-        This method trains the neural network on the given features and labels
+        This method trains the neural network on the given features and targets
         provided by the data loader batch processor.
 
         Args:
@@ -65,17 +73,43 @@ class MLP(nn.Module):
         for epoch in range(n_epochs):
             for batch in data_loader:
                 images = batch[0]
-                labels = batch[1]
+                targets = batch[1]
 
+                # calculate predicted targets
                 predictions = self(images)
 
-                loss = func.cross_entropy(predictions, labels)
+                # calculate the loss
+                loss = func.cross_entropy(predictions, targets)
 
+                # clear the gradients
                 optimizer.zero_grad()
 
+                # backpropagate the loss
                 loss.backward()
 
+                # update weights and biases
                 optimizer.step()
 
+            # calculate the train set accuracy after each epoch
             epoch_accuracy = utils.get_accuracy(self, data_loader) * 100
             print(f'epoch {epoch}: train set accuracy {epoch_accuracy:.3f}%')
+
+    def test(self, data_loader):
+        """
+        Test
+
+        This method tests the multilayer perceptron and reports the accuracy of
+        the feature classification on the test set.
+
+        Args:
+            data_loader (torch.utils.data.DataLoader): the data loader
+
+        Returns:
+            accuracy (float): the accuracy of the feature classifications
+        """
+
+        # calculate test set accuracy
+        accuracy = utils.get_accuracy(self, data_loader) * 100
+        print(f'test set accuracy {accuracy:.3f}%')
+
+        return accuracy

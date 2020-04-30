@@ -40,14 +40,20 @@ def main():
         ])
     )
 
-    # instantiate multilayer perceptron
-    mlp = MLP()
+    # instantiate train data loader
+    train_data_loader = torch.utils.data.DataLoader(train_set, batch_size=1000)
 
-    # instantiate batch loader
-    loader = torch.utils.data.DataLoader(train_set, batch_size=10000)
+    # instantiate test data loader
+    test_data_loader = torch.utils.data.DataLoader(test_set, batch_size=1000)
 
-    # train the multilayer perceptron
-    mlp.train(loader, learning_rate=0.01, n_epochs=10)
+    # instantiate base architecture convolutional neural network
+    base_cnn = BaseCNN()
+
+    # train the base architecture convolutional neural network
+    base_cnn.train(train_data_loader, learning_rate=0.01, n_epochs=10)
+
+    # test the base architecture convolutional neural network
+    base_cnn.test(test_data_loader)
 
 
 if __name__ == '__main__':
