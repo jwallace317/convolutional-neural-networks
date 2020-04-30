@@ -5,12 +5,14 @@ Task Main
 # import necessary modules
 import numpy as np
 import torch
-import torch.nn.functional as F
+import torch.nn.functional as func
 import torch.optim as optim
 
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
+import utils
 from convolutional_neural_networks import BaseCNN
+from multilayer_perceptron import MLP
 
 
 def main():
@@ -38,14 +40,14 @@ def main():
         ])
     )
 
-    # instantiate base convolutional neural network
-    base_cnn = BaseCNN()
+    # instantiate multilayer perceptron
+    mlp = MLP()
 
     # instantiate batch loader
-    loader = torch.utils.data.DataLoader(train_set, batch_size=1)
+    loader = torch.utils.data.DataLoader(train_set, batch_size=10000)
 
-    # instantiate optimizer
-    optimizer = optim.Adam(base_cnn.parameters(), lr=0.001)
+    # train the multilayer perceptron
+    mlp.train(loader, learning_rate=0.01, n_epochs=10)
 
 
 if __name__ == '__main__':
