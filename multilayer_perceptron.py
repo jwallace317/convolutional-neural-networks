@@ -69,6 +69,8 @@ class MLP(nn.Module):
         # instantiate optimizer
         optimizer = optim.Adam(self.parameters(), lr=learning_rate)
 
+        performance = []
+
         # train the model for a given number of epochs
         for epoch in range(n_epochs):
             for batch in data_loader:
@@ -93,6 +95,10 @@ class MLP(nn.Module):
             # calculate the train set accuracy after each epoch
             epoch_accuracy = utils.get_accuracy(self, data_loader) * 100
             print(f'epoch {epoch}: train set accuracy {epoch_accuracy:.3f}%')
+
+            performance.append(epoch_accuracy)
+
+        return performance
 
     def test(self, data_loader):
         """
